@@ -1,35 +1,43 @@
 import React, { useRef } from "react";
 import { Card, Form, Button, Container } from "react-bootstrap";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, signOut } from "firebase/auth";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
 import { auth } from "../firebase";
 
-export default function SignUp() {
+export default function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const confirmPasswordRef = useRef();
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async(e) => {
     e.preventDefault();
     try {
-      const credentials = await createUserWithEmailAndPassword(
+      const credential = await signInWithEmailAndPassword(
         auth,
         emailRef.current.value,
         passwordRef.current.value
       );
-      const { user } = credentials;
-      console.log(user);
+      const {user} = credential
+      console.log(user)
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   };
+
+  const handleLogOut = async() => {
+    try {
+      await signOut(auth)
+      console.log('logged out')
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   return (
     <Container fluid className="d-flex flex-column">
       <Card className="w-100 w-sm-100">
         <Card.Body>
-          <Card.Title className="text-center fs-1">Sign up</Card.Title>
+          <Card.Title className="text-center fs-1">Login</Card.Title>
           <Form onSubmit={(e) => handleSubmit(e)}>
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
@@ -52,24 +60,18 @@ export default function SignUp() {
                 required
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
-              <Form.Label>Confirm Password</Form.Label>
-              <Form.Control
-                type="password"
-                placeholder="Password"
-                ref={confirmPasswordRef}
-                required
-              />
-            </Form.Group>
             <Button variant="primary" type="submit" className="w-100 fs-4">
-              Sign up
+              Login
             </Button>
           </Form>
           <div className="mt-2 fs-6">
-            Already have an Account? <Link to='/Login'>Login</Link>
+            Dont't have an Account? <Link to='/SignUp'>Sign up</Link>
           </div>
         </Card.Body>
       </Card>
+      <Button variant="primary" type="button" onClick={handleLogOut} className="w-100 fs-4">
+        Logout
+      </Button>
     </Container>
   );
 }
