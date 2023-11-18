@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import Dashboard from './Dashboard';
 import Login from './Login';
 import SignUp from './SignUp';
+import Home from './Home'
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { onAuthStateChanged } from 'firebase/auth';
 import { auth } from '../firebase';
@@ -42,25 +43,26 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={
-          userOut ? (
-            <Navigate replace to="/Login"/>
-          ) : (
-            <Dashboard />
-          )
-        } />
+        <Route path="/" element={<Dashboard />}/>
         <Route path="/Login" element={
           !userOut ? (
-            <Navigate replace to="/"/>
+            <Navigate replace to="/Home"/>
           ) : (
             <Login />
           )
         } />
         <Route path="/SignUp" element={
           !userOut ? (
-            <Navigate replace to="/"/>
+            <Navigate replace to="/Home"/>
           ) : (
             <SignUp />
+          )
+        } />
+        <Route path="/Home" element={
+          userOut ? (
+            <Navigate replace to="/Login"/>
+          ) : (
+            <Home />
           )
         } />
       </Routes>

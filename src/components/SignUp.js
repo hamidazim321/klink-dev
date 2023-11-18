@@ -24,7 +24,7 @@ export default function SignUp() {
       );
       const { user } = credentials;
       dispatch(setUser(user.uid))
-      navigate('/')
+      navigate('/Home')
       
     } catch (err) {
       console.log(err);
