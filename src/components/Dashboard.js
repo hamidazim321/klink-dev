@@ -1,11 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Container, Card, Image } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../assets/logo.svg";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export default function Dashboard() {
   const navigate = useNavigate();
+  const { username } = useSelector((state) => state.currentUser);
+  useEffect(() => {
+    if (username){
+      navigate('/Home')
+    }
+  }, [username])
   return (
     <div>
       <Container className="w-100 p-4 d-flex flex-column gap-4 pt-5">

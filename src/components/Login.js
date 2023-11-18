@@ -21,8 +21,12 @@ export default function Login() {
         passwordRef.current.value
       );
       const { user } = await credential;
-      await dispatch(setUser(user.uid));
-      console.log(user);
+      await dispatch(
+        setUser({
+          id: user.uid,
+          name: user.displayName,
+        })
+      );
     } catch (err) {
       console.error(err);
     }
