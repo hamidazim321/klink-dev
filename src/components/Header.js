@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Stack, Image } from "react-bootstrap";
 import logo from "../assets/logo.svg";
