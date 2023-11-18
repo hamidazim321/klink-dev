@@ -64,7 +64,7 @@ export default function SignUp() {
                 required
               />
               <Form.Text className="text-muted">
-                We'll never share your email with anyone else.
+                Do not use any sensitive information
               </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">

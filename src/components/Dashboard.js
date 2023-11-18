@@ -12,7 +12,7 @@ export default function Dashboard() {
     if (username){
       navigate('/Home')
     }
-  }, [username])
+  }, [username, navigate])
   return (
     <div>
       <Container className="w-100 p-4 d-flex flex-column gap-4 pt-5">
