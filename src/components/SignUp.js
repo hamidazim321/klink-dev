@@ -1,14 +1,18 @@
 import React, { useRef } from "react";
 import { Card, Form, Button, Container } from "react-bootstrap";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useDispatch } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { auth } from "../firebase";
+import { setUser } from "../redux/CurrentUser/currentUser";
 
 export default function SignUp() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -19,7 +23,9 @@ export default function SignUp() {
         passwordRef.current.value
       );
       const { user } = credentials;
-      console.log(user);
+      dispatch(setUser(user.uid))
+      navigate('/')
+      
     } catch (err) {
       console.log(err);
     }

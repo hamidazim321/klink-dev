@@ -15,7 +15,7 @@ const currentUserSlice = createSlice({
         }
       }else {
         return {
-          ...state
+          uid: null
         }
       }
     }

@@ -1,15 +1,18 @@
 import React, { useRef } from "react";
 import { Card, Form, Button, Container } from "react-bootstrap";
-import { signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setUser } from "../redux/CurrentUser/currentUser";
 import { auth } from "../firebase";
 
 export default function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
+  const dispatch = useDispatch();
 
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const credential = await signInWithEmailAndPassword(
@@ -17,21 +20,13 @@ export default function Login() {
         emailRef.current.value,
         passwordRef.current.value
       );
-      const {user} = credential
-      console.log(user)
+      const { user } = await credential;
+      await dispatch(setUser(user.uid));
+      console.log(user);
     } catch (err) {
       console.error(err);
     }
   };
-
-  const handleLogOut = async() => {
-    try {
-      await signOut(auth)
-      console.log('logged out')
-    } catch (err) {
-      console.error(err)
-    }
-  }
 
   return (
     <Container fluid className="d-flex flex-column">
@@ -65,13 +60,10 @@ export default function Login() {
             </Button>
           </Form>
           <div className="mt-2 fs-6">
-            Dont't have an Account? <Link to='/SignUp'>Sign up</Link>
+            Dont't have an Account? <Link to="/SignUp">Sign up</Link>
           </div>
         </Card.Body>
       </Card>
-      <Button variant="primary" type="button" onClick={handleLogOut} className="w-100 fs-4">
-        Logout
-      </Button>
     </Container>
   );
 }
