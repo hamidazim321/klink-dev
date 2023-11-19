@@ -32,9 +32,14 @@ export default function Header({ name }) {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item>
+              <Dropdown.Item className="fs-3 border-bottom">
                 <Button type="button" variant="outline" onClick={handleLogout}>
                   Logout
+                </Button>
+              </Dropdown.Item>
+              <Dropdown.Item>
+                <Button type="button" variant="outline">
+                  Post
                 </Button>
               </Dropdown.Item>
             </Dropdown.Menu>

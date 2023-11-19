@@ -10,6 +10,7 @@ import { setUser } from "../redux/CurrentUser/currentUser";
 import PrivateRoute from "./PrivateRoute";
 import Header from "./Header";
 import { onAuthStateChanged } from "firebase/auth";
+import Footer from "./Footer";
 
 function App() {
   const dispatch = useDispatch();
@@ -38,6 +39,7 @@ function App() {
   return (
     <div className="App">
       {currentUser.uid && <Header name={currentUser.username} />}
+      {currentUser.uid && <Footer />}
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route
