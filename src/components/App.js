@@ -11,7 +11,7 @@ import PrivateRoute from "./PrivateRoute";
 import Header from "./Header";
 import { onAuthStateChanged } from "firebase/auth";
 import Footer from "./Footer";
-import Post from "./Post";
+import Post from "./MyPost";
 
 function App() {
   const dispatch = useDispatch();

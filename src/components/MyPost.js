@@ -1,17 +1,21 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Form, Button, Dropdown } from "react-bootstrap";
 import data from "@emoji-mart/data";
+import { addDoc } from "firebase/firestore";
 import Picker from "@emoji-mart/react";
 import { BsEmojiLaughing } from "react-icons/bs";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useSelector } from "react-redux";
 
 export default function Post() {
   const [post, setPost] = useState("");
+  const {username} = useSelector((state => state.currentUser))
   const dropdownRef = useRef();
   const [showDropdown, setShowDropdown] = useState(false);
 
   const handlePost =(e) => {
     e.preventDefault()
+
   } 
 
   const handleDropdownToggle = (isOpen) => {
@@ -30,7 +34,6 @@ export default function Post() {
 
   useEffect(() => {
     document.addEventListener("mousedown", handleDocumentClick);
-
     return () => {
       document.removeEventListener("mousedown", handleDocumentClick);
     };

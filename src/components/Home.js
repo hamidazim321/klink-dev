@@ -1,7 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { postsCol } from "../firebase";
 import { getDocs } from "firebase/firestore";
+import { Container } from "react-bootstrap";
+import PostCard from "./PostCard";
 export default function Home() {
+  const [posts, setPosts] = useState([])
   useEffect(() => {
     const fetchPosts = async() => {
       try {
@@ -14,7 +17,7 @@ export default function Home() {
             id: doc.id
           })
         })
-        console.log(arr)
+        setPosts(arr)
       } catch (err) {
         console.error(err);
       }
@@ -22,8 +25,10 @@ export default function Home() {
     fetchPosts()
   }, []);
   return (
-    <div>
-      <button type="button">Home</button>
-    </div>
+    <Container className="d-flex flex-column gap-3">
+      {posts.map(post => (
+        <PostCard data={post.data} key={post.id}/>
+      ))}
+    </Container>
   );
 }
