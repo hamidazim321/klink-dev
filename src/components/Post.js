@@ -10,6 +10,10 @@ export default function Post() {
   const dropdownRef = useRef();
   const [showDropdown, setShowDropdown] = useState(false);
 
+  const handlePost =(e) => {
+    e.preventDefault()
+  } 
+
   const handleDropdownToggle = (isOpen) => {
     setShowDropdown(isOpen);
   };
@@ -33,7 +37,7 @@ export default function Post() {
   }, []);
 
   return (
-    <Form className="w-100 p-2">
+    <Form className="w-100 p-2" onSubmit={handlePost}>
       <Form.Control
         type="textarea"
         placeholder="What's on your mind"
