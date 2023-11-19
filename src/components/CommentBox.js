@@ -50,7 +50,7 @@ export default function CommentBox({
       comment: post,
       comment_by: username,
     };
-    const updatedComments = [...currentComments, newComment];
+    const updatedComments = Array.isArray(currentComments) ? [...currentComments, newComment] : [newComment]
     try {
       const docRef = doc(postsCol, postId);
       await updateDoc(docRef, {
