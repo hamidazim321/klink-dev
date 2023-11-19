@@ -1,17 +1,18 @@
-import { doc, onSnapshot } from 'firebase/firestore';
-import React, { useEffect } from 'react'
-import { postsCol } from '../firebase';
+import React, { useRef, useState, useEffect } from "react";
+import { Form, Button, Dropdown, Alert } from "react-bootstrap";
+import data from "@emoji-mart/data";
+import { updateDoc, doc } from "firebase/firestore";
+import Picker from "@emoji-mart/react";
+import { BsEmojiLaughing } from "react-icons/bs";
+import "bootstrap/dist/css/bootstrap.min.css";
+import { useSelector } from "react-redux";
+import { postsCol } from "../firebase";
 
-export default function CommentBox({id, comments}) {
-
-  const [MyComment, setMyComment] = useState("");
+export default function CommentBox({commentHandler, currentComments, postId}) {
+  const [post, setPost] = useState("");
   const dropdownRef = useRef();
+  const {username} = useSelector(state => state.currentUser)
   const [showDropdown, setShowDropdown] = useState(false);
-
-  handleComment = (id) => {
-    
-  }
-
   const handleDropdownToggle = (isOpen) => {
     setShowDropdown(isOpen);
   };
@@ -23,7 +24,7 @@ export default function CommentBox({id, comments}) {
   };
 
   const handleEmojiSelect = (emoji) => {
-    setMyComment(prev => prev + emoji.native)
+    setPost(prev => prev + emoji.native)
   }
 
   useEffect(() => {
@@ -33,23 +34,40 @@ export default function CommentBox({id, comments}) {
     };
   }, []);
 
+  const postComment = async(e) =>{
+    e.preventDefault()
+    const newComment = {
+      comment: post,
+      comment_by: username
+    }
+    const updatedComments = [...currentComments, newComment]
+    try{
+      const docRef = doc(postsCol, postId)
+      await updateDoc(docRef, {
+        comments: updatedComments
+      })
+      commentHandler(updatedComments.reverse())
+    }catch(err){
+      console.error(err)
+    }
+  }
+
   return (
-    <Form className="w-100 p-2" onSubmit={handleComment}>
+    <Form className="w-100 p-2" onSubmit={postComment}>
       <Form.Control
         type="textarea"
         placeholder="What's on your mind"
-        className="mb-2 fs-3"
-        style={{ minHeight: "80px" }}
+        className="mb-2 fs-6"
+        style={{ minHeight: "60px" }}
         value={post}
-        onChange={(e) => setMyComment(e.target.value)}
+        onChange={(e) => setPost(e.target.value)}
       />
-      <div className="d-flex justify-content-end">
+      <div style={{height: 'fit-content'}} className="d-flex justify-content-end">
         <Button
-          variant="primary"
           type="submit"
-          className="fs-5 border rounded-pill me-auto"
+          className="fs-6 btn p-1 border me-auto"
         >
-          Comment
+          comment
         </Button>
         <Dropdown
           className="d-flex justify-content-end"
@@ -76,5 +94,5 @@ export default function CommentBox({id, comments}) {
         </Dropdown>
       </div>
     </Form>
-  )
+  );
 }

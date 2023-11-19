@@ -6,33 +6,33 @@ import { FaRegComment } from "react-icons/fa";
 import { useSelector } from "react-redux";
 import { postsCol } from "../firebase";
 
-export default function PostCard({ data, id }) {
+export default function PostCard({ data, id, commentsHandler }) {
   const { comments, likes, post, post_by, posted_at } = data;
   const { uid } = useSelector((state) => state.currentUser);
-  const [liked, setLiked] = useState(false)
-  const [newLikes, setNewLikes] = useState(likes)
+  const [liked, setLiked] = useState(false);
+  const [newLikes, setNewLikes] = useState(likes);
 
   const handleLike = async (id) => {
-    if (liked){
-      return
+    if (liked) {
+      return;
     }
     try {
       const docRef = doc(postsCol, id);
-      const myLike = [...likes, uid]
-      setNewLikes(myLike)
+      const myLike = [...likes, uid];
+      setNewLikes(myLike);
       updateDoc(docRef, {
-        likes: myLike
-      })
+        likes: myLike,
+      });
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    if (newLikes.includes(uid)){
-      setLiked(true)
+    if (newLikes.includes(uid)) {
+      setLiked(true);
     }
-  }, [setLiked, uid, newLikes])
+  }, [setLiked, uid, newLikes]);
 
   return (
     <Card>
@@ -51,10 +51,13 @@ export default function PostCard({ data, id }) {
             className="d-flex gap-1 align-items-center"
             onClick={() => handleLike(id)}
           >
-            <AiFillLike style={{color: liked ? 'red' : 'black'}} />
+            <AiFillLike style={{ color: liked ? "red" : "black" }} />
             <span>{newLikes.length}</span>
           </div>
-          <div className="d-flex gap-1 align-items-center">
+          <div
+            className="d-flex gap-1 align-items-center"
+            onClick={() => commentsHandler(comments, id, uid)}
+          >
             <FaRegComment />
             <span>{comments.length}</span>
           </div>
