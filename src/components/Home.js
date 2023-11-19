@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { postsCol } from "../firebase";
-import { getDocs } from "firebase/firestore";
+import { getDocs, orderBy, query } from "firebase/firestore";
 import { Container } from "react-bootstrap";
 import PostCard from "./PostCard";
 export default function Home() {
   const [posts, setPosts] = useState([])
   useEffect(() => {
     const fetchPosts = async() => {
+      const q = query(postsCol, orderBy('posted_at', 'desc'))
       try {
-        const snapshot = await getDocs(postsCol);
+        const snapshot = await getDocs(q);
         const { docs} = await snapshot;
         let arr = []
         docs.forEach((doc) => {

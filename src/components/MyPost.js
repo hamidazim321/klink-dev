@@ -1,21 +1,35 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Form, Button, Dropdown } from "react-bootstrap";
+import { Form, Button, Dropdown, Alert } from "react-bootstrap";
 import data from "@emoji-mart/data";
-import { addDoc } from "firebase/firestore";
+import { addDoc, serverTimestamp } from "firebase/firestore";
 import Picker from "@emoji-mart/react";
 import { BsEmojiLaughing } from "react-icons/bs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
+import { postsCol } from "../firebase";
 
 export default function Post() {
   const [post, setPost] = useState("");
   const {username} = useSelector((state => state.currentUser))
   const dropdownRef = useRef();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [alert, setAlert] = useState() 
 
-  const handlePost =(e) => {
+  const handlePost = async(e) => {
     e.preventDefault()
+    try {
+      await addDoc(postsCol, {
+        post_by: username,
+        post: post,
+        posted_at: serverTimestamp(),
+        likes: 0,
+        comments: []
+      })
+      setAlert('Posted Successfully')
 
+    }catch(err){
+      setAlert('Could not be posted')
+    }
   } 
 
   const handleDropdownToggle = (isOpen) => {
@@ -41,6 +55,11 @@ export default function Post() {
 
   return (
     <Form className="w-100 p-2" onSubmit={handlePost}>
+      {alert && (
+        alert === 'Posted Successfully' ? (
+          <Alert variant="success">{alert}</Alert>
+        ): <Alert variant="danger">{alert}</Alert>
+      )}
       <Form.Control
         type="textarea"
         placeholder="What's on your mind"
