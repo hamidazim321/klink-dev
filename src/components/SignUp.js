@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { Card, Form, Button, Container } from "react-bootstrap";
+import React, { useState } from "react";
+import { Card, Form, Button, Container, Alert } from "react-bootstrap";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -8,35 +8,42 @@ import { auth } from "../firebase";
 import { setUser } from "../redux/CurrentUser/currentUser";
 
 export default function SignUp() {
-  const userNameRef = useRef();
-  const emailRef = useRef();
-  const passwordRef = useRef();
-  const confirmPasswordRef = useRef();
+  const [userName, setUserName] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
+  const [confirmPassword, setConfirmPassword] = useState();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [error, setError] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const username = userNameRef.current.value
+    if (password!== confirmPassword){
+      setError('Passwords do not match')
+      return
+    }
     try {
       const credentials = await createUserWithEmailAndPassword(
         auth,
-        emailRef.current.value,
-        passwordRef.current.value
+        email,
+        password
       );
       await updateProfile(credentials.user, {
-        displayName: userNameRef.current.value,
+        displayName: userName,
       });
       const { user } = credentials;
       dispatch(
         setUser({
           id: user.uid,
-          name: username,
+          name: userName,
         })
       );
       navigate("/Home");
     } catch (err) {
-      console.error(err);
+      if (err.message === 'Firebase: Error (auth/email-already-in-use).'){
+        setError("This email is already in use")
+      }
+      console.error(err)
     }
   };
 
@@ -46,34 +53,40 @@ export default function SignUp() {
         <Card.Body>
           <Card.Title className="text-center fs-1">Sign up</Card.Title>
           <Form onSubmit={(e) => handleSubmit(e)}>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
+            {error && (
+              <Alert variant="danger">{error}</Alert>
+            )}
+            <Form.Group className="mb-3">
               <Form.Label>Username</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="username"
-                ref={userNameRef}
                 required
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
               />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicEmail">
+            <Form.Group className="mb-3">
               <Form.Label>Email address</Form.Label>
               <Form.Control
                 type="email"
                 placeholder="Enter email"
-                ref={emailRef}
                 required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <Form.Text className="text-muted">
                 Do not use any sensitive information
               </Form.Text>
             </Form.Group>
-            <Form.Group className="mb-3" controlId="formBasicPassword">
+            <Form.Group className="mb-3">
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
-                placeholder="Password"
-                ref={passwordRef}
+                placeholder="Password"              
                 required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </Form.Group>
             <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -81,8 +94,9 @@ export default function SignUp() {
               <Form.Control
                 type="password"
                 placeholder="Password"
-                ref={confirmPasswordRef}
                 required
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
             </Form.Group>
             <Button variant="primary" type="submit" className="w-100 fs-4">

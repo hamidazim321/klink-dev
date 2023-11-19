@@ -1,5 +1,5 @@
-import React, { useRef } from "react";
-import { Card, Form, Button, Container } from "react-bootstrap";
+import React, { useRef, useState } from "react";
+import { Card, Form, Button, Container, Alert } from "react-bootstrap";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link } from "react-router-dom";
@@ -11,6 +11,7 @@ export default function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
   const dispatch = useDispatch();
+  const [error, setError] = useState(false)
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,8 +28,9 @@ export default function Login() {
           name: user.displayName,
         })
       );
+      setError(false)
     } catch (err) {
-      console.error(err);
+      setError(true)
     }
   };
 
@@ -38,6 +40,9 @@ export default function Login() {
         <Card.Body>
           <Card.Title className="text-center fs-1">Login</Card.Title>
           <Form onSubmit={(e) => handleSubmit(e)}>
+            {error && (
+              <Alert variant="danger">Incorrect email or password</Alert>
+            )}
             <Form.Group className="mb-3" controlId="formBasicEmail">
               <Form.Label>Email address</Form.Label>
               <Form.Control

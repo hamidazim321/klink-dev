@@ -10,7 +10,7 @@ import { postsCol } from "../firebase";
 
 export default function Post() {
   const [post, setPost] = useState("");
-  const {username} = useSelector((state => state.currentUser))
+  const {username, uid} = useSelector((state => state.currentUser))
   const dropdownRef = useRef();
   const [showDropdown, setShowDropdown] = useState(false);
   const [alert, setAlert] = useState() 
@@ -23,6 +23,7 @@ export default function Post() {
         post: post,
         posted_at: serverTimestamp(),
         likes: 0,
+        post_id: uid,
         comments: []
       })
       setAlert('Posted Successfully')

@@ -15,7 +15,6 @@ export default function Header({ name }) {
     try {
       await signOut(auth)
       dispatch(setUser(null))
-      console.log('logged out')
     } catch (err) {
       console.error(err)
     }
