@@ -1,4 +1,4 @@
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { Card, Stack } from "react-bootstrap";
 import { AiFillLike } from "react-icons/ai";
@@ -10,6 +10,7 @@ export default function PostCard({ data, id }) {
   const { comments, likes, post, post_by, posted_at } = data;
   const { uid } = useSelector((state) => state.currentUser);
   const [liked, setLiked] = useState(false)
+  const [newLikes, setNewLikes] = useState(likes)
 
   const handleLike = async (id) => {
     if (liked){
@@ -17,11 +18,10 @@ export default function PostCard({ data, id }) {
     }
     try {
       const docRef = doc(postsCol, id);
-      const docSnap = await getDoc(docRef);
-      const {likes} = docSnap.data()
-      likes.push(uid)
+      const myLike = [...likes, uid]
+      setNewLikes(myLike)
       updateDoc(docRef, {
-        likes: likes
+        likes: myLike
       })
     } catch (error) {
       console.log(error);
@@ -29,10 +29,10 @@ export default function PostCard({ data, id }) {
   };
 
   useEffect(() => {
-    if (likes.includes(uid)){
+    if (newLikes.includes(uid)){
       setLiked(true)
     }
-  })
+  }, [setLiked, uid, newLikes])
 
   return (
     <Card>
@@ -52,7 +52,7 @@ export default function PostCard({ data, id }) {
             onClick={() => handleLike(id)}
           >
             <AiFillLike style={{color: liked ? 'red' : 'black'}} />
-            <span>{likes.length}</span>
+            <span>{newLikes.length}</span>
           </div>
           <div className="d-flex gap-1 align-items-center">
             <FaRegComment />

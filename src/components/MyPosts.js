@@ -10,9 +10,9 @@ import {
   doc,
   deleteDoc,
 } from "firebase/firestore";
-import { postsCol, db } from "../firebase";
+import { postsCol } from "../firebase";
 import { Button, Container } from "react-bootstrap";
-export default function MyPosts({}) {
+export default function MyPosts() {
   const { uid, username } = useSelector((state) => state.currentUser);
   const [posts, setPosts] = useState();
   const [loading, setLoading] = useState(true);
@@ -40,7 +40,7 @@ export default function MyPosts({}) {
       setLoading(false)
     });
     return unsubscribe
-  }, []);
+  }, [uid]);
   return (
     <Container className="d-flex flex-column gap-3">
       {!loading && (
