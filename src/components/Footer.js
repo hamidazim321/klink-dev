@@ -17,7 +17,7 @@ export default function Footer() {
           <GoHomeFill />
         </div>
 
-        <div>
+        <div onClick={()=>navigate('/Inbox')}>
           <FaEnvelope />
         </div>
       </Stack>

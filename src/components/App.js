@@ -13,6 +13,7 @@ import Login from "./Login";
 import SignUp from "./SignUp";
 import Home from "./Home";
 import MyPosts from "./MyPosts";
+import Inbox from "./Inbox";
 
 function App() {
   const dispatch = useDispatch();
@@ -63,6 +64,10 @@ function App() {
         <Route
           path="/My-Posts"
           element={<PrivateRoute user={currentUser.uid} children={<MyPosts />} />}
+        />
+        <Route
+          path="/Inbox"
+          element={<PrivateRoute user={currentUser.uid} children={<Inbox />} />}
         />
       </Routes>
     </div>

@@ -16,4 +16,5 @@ export const auth = getAuth(app);
 export const db = getFirestore()
 export const postsCol = collection(db, 'posts')
 export const usersCol = collection(db, 'users')
+export const chatroomCol = collection(db, 'chatroom')
 export default app;
