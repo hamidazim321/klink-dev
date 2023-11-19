@@ -28,7 +28,7 @@ export default function Home() {
   return (
     <Container className="d-flex flex-column gap-3">
       {posts.map(post => (
-        <PostCard data={post.data} key={post.id}/>
+        <PostCard data={post.data} id={post.id} key={post.id}/>
       ))}
     </Container>
   );

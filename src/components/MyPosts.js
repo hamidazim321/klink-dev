@@ -18,7 +18,7 @@ export default function MyPosts({}) {
   const [loading, setLoading] = useState(true);
 
   const handleDelete = async(id) => {
-    const docRef = doc(db, "posts", id);
+    const docRef = doc(postsCol, id);
     try {
       deleteDoc(docRef)
     }catch(err){

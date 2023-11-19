@@ -22,7 +22,7 @@ export default function MakePost() {
         post_by: username,
         post: post,
         posted_at: serverTimestamp(),
-        likes: 0,
+        likes: [],
         post_id: uid,
         comments: []
       })
