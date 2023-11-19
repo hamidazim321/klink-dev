@@ -7,8 +7,10 @@ import logo from "../assets/logo.svg";
 import { useDispatch } from "react-redux";
 import { auth } from "../firebase";
 import { setUser } from "../redux/CurrentUser/currentUser";
+import { useNavigate } from "react-router-dom";
 export default function Header({ name }) {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const handleLogout = async() => {
     try {
       await signOut(auth)
@@ -38,7 +40,7 @@ export default function Header({ name }) {
                 </Button>
               </Dropdown.Item>
               <Dropdown.Item>
-                <Button type="button" variant="outline">
+                <Button type="button" variant="outline" onClick={() => navigate('/Post')}>
                   Post
                 </Button>
               </Dropdown.Item>

@@ -11,6 +11,7 @@ import PrivateRoute from "./PrivateRoute";
 import Header from "./Header";
 import { onAuthStateChanged } from "firebase/auth";
 import Footer from "./Footer";
+import Post from "./Post";
 
 function App() {
   const dispatch = useDispatch();
@@ -53,6 +54,10 @@ function App() {
         <Route
           path="/Home"
           element={<PrivateRoute user={currentUser.uid} children={<Home />} />}
+        />
+        <Route
+          path="/Post"
+          element={<PrivateRoute user={currentUser.uid} children={<Post />} />}
         />
       </Routes>
     </div>
