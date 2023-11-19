@@ -8,10 +8,15 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
 import { postsCol } from "../firebase";
 
-export default function CommentBox({commentHandler, currentComments, postId}) {
+export default function CommentBox({
+  commentHandler,
+  currentComments,
+  postId,
+}) {
   const [post, setPost] = useState("");
+  const [error, setError] = useState(false);
   const dropdownRef = useRef();
-  const {username} = useSelector(state => state.currentUser)
+  const { username } = useSelector((state) => state.currentUser);
   const [showDropdown, setShowDropdown] = useState(false);
   const handleDropdownToggle = (isOpen) => {
     setShowDropdown(isOpen);
@@ -24,8 +29,8 @@ export default function CommentBox({commentHandler, currentComments, postId}) {
   };
 
   const handleEmojiSelect = (emoji) => {
-    setPost(prev => prev + emoji.native)
-  }
+    setPost((prev) => prev + emoji.native);
+  };
 
   useEffect(() => {
     document.addEventListener("mousedown", handleDocumentClick);
@@ -34,26 +39,33 @@ export default function CommentBox({commentHandler, currentComments, postId}) {
     };
   }, []);
 
-  const postComment = async(e) =>{
-    e.preventDefault()
+  const postComment = async (e) => {
+    setError(false);
+    e.preventDefault();
+    if (post.trim() === "") {
+      setError("cannot post empty comment");
+      return;
+    }
     const newComment = {
       comment: post,
-      comment_by: username
-    }
-    const updatedComments = [...currentComments, newComment]
-    try{
-      const docRef = doc(postsCol, postId)
+      comment_by: username,
+    };
+    const updatedComments = [...currentComments, newComment];
+    try {
+      const docRef = doc(postsCol, postId);
       await updateDoc(docRef, {
-        comments: updatedComments
-      })
-      commentHandler(updatedComments.reverse())
-    }catch(err){
-      console.error(err)
+        comments: updatedComments,
+      });
+      commentHandler(updatedComments.reverse());
+    } catch (err) {
+      setError(err.message);
     }
-  }
+  };
 
   return (
     <Form className="w-100 p-2" onSubmit={postComment}>
+      {error && <Alert variant="danger">{error}</Alert>}
+
       <Form.Control
         type="textarea"
         placeholder="What's on your mind"
@@ -62,11 +74,11 @@ export default function CommentBox({commentHandler, currentComments, postId}) {
         value={post}
         onChange={(e) => setPost(e.target.value)}
       />
-      <div style={{height: 'fit-content'}} className="d-flex justify-content-end">
-        <Button
-          type="submit"
-          className="fs-6 btn p-1 border me-auto"
-        >
+      <div
+        style={{ height: "fit-content" }}
+        className="d-flex justify-content-end"
+      >
+        <Button type="submit" className="fs-6 btn p-1 border me-auto">
           comment
         </Button>
         <Dropdown

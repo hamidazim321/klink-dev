@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import { postsCol } from "../firebase";
 import { getDocs, orderBy, query } from "firebase/firestore";
 import { Container, Modal, Stack } from "react-bootstrap";
+import { FaTrash } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
 import PostCard from "./PostCard";
 import CommentBox from "./CommentBox";
+import { useSelector } from "react-redux";
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const [showComments, setShowComments] = useState(false);
   const [selectedComments, setSelectedComments] = useState();
-  const [postId, setPostId] = useState()
+  const [postId, setPostId] = useState();
+  const { username } = useSelector((state) => state.currentUser);
   useEffect(() => {
     const fetchPosts = async () => {
       const q = query(postsCol, orderBy("posted_at", "desc"));
@@ -33,13 +36,15 @@ export default function Home() {
 
   const handleShowComments = (comments, id, uid) => {
     setShowComments((prev) => !prev);
-    comments.length > 0 ? setSelectedComments(comments) : setSelectedComments(null)
-    setPostId(id)
+    comments.length > 0
+      ? setSelectedComments(comments)
+      : setSelectedComments(null);
+    setPostId(id);
   };
 
   const updateCommentsLocally = (updatedComments) => {
-    setSelectedComments(updatedComments)
-  }
+    setSelectedComments(updatedComments);
+  };
   return (
     <Container className="d-flex flex-column gap-3">
       {posts.map((post) => (
@@ -57,20 +62,31 @@ export default function Home() {
       >
         <Modal.Header closeButton>Comments</Modal.Header>
         <Modal.Body>
-          <CommentBox commentHandler={updateCommentsLocally} currentComments={selectedComments} postId={postId}/>
+          <CommentBox
+            commentHandler={updateCommentsLocally}
+            currentComments={selectedComments}
+            postId={postId}
+          />
         </Modal.Body>
         <Modal.Footer>
-          <Stack direction="vertical" gap={2} style={{maxHeight: '400px', overflow: 'scroll'}}>
+          <Stack
+            direction="vertical"
+            gap={2}
+            style={{ maxHeight: "400px", overflowY: "scroll" }}
+          >
             {selectedComments &&
               selectedComments.map((comment) => (
-                <div className="d-flex gap-2">
+                <div className="d-flex gap-2 align-items-start">
                   <span className="fw-semibold">{comment.comment_by}</span>
-                  <p>{comment.comment}</p>
+                  <span className="text-wrap">{comment.comment}</span>
+                  {comment.comment_by === username ? (
+                    <span className="ms-auto">
+                      <FaTrash />
+                    </span>
+                  ) : null}
                 </div>
               ))}
-            {!selectedComments && (
-              <div>No Comments yet</div>
-            )}
+            {!selectedComments && <div>No Comments yet</div>}
           </Stack>
         </Modal.Footer>
       </Modal>
