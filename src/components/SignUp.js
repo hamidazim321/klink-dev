@@ -4,22 +4,35 @@ import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Link, useNavigate } from "react-router-dom";
-import { auth } from "../firebase";
+import { auth, usersCol } from "../firebase";
 import { setUser } from "../redux/CurrentUser/currentUser";
+import { addDoc, getDocs, query, where } from "firebase/firestore";
 
 export default function SignUp() {
   const [userName, setUserName] = useState();
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [confirmPassword, setConfirmPassword] = useState();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [error, setError] = useState(false)
+  const [error, setError] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (password!== confirmPassword){
-      setError('Passwords do not match')
+    setError(false)
+    const q = query(usersCol, where("username", "==", userName));
+    const users = await getDocs(q);
+    const { docs } = await users;
+    if (docs.length > 0){
+      setError('Username already in use, select another name')
+      return
+    }
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+    if(password.length < 8){
+      setError('Password must be atleast 8 characters')
       return
     }
     try {
@@ -32,6 +45,10 @@ export default function SignUp() {
         displayName: userName,
       });
       const { user } = credentials;
+      await addDoc(usersCol, {
+        username: userName,
+        uid: user.uid
+      })
       dispatch(
         setUser({
           id: user.uid,
@@ -40,10 +57,10 @@ export default function SignUp() {
       );
       navigate("/Home");
     } catch (err) {
-      if (err.message === 'Firebase: Error (auth/email-already-in-use).'){
-        setError("This email is already in use")
+      if (err.message === "Firebase: Error (auth/email-already-in-use).") {
+        setError("This email is already in use");
       }
-      console.error(err)
+      console.error(err);
     }
   };
 
@@ -53,9 +70,7 @@ export default function SignUp() {
         <Card.Body>
           <Card.Title className="text-center fs-1">Sign up</Card.Title>
           <Form onSubmit={(e) => handleSubmit(e)}>
-            {error && (
-              <Alert variant="danger">{error}</Alert>
-            )}
+            {error && <Alert variant="danger">{error}</Alert>}
             <Form.Group className="mb-3">
               <Form.Label>Username</Form.Label>
               <Form.Control
@@ -83,7 +98,7 @@ export default function SignUp() {
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
-                placeholder="Password"              
+                placeholder="Password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

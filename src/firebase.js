@@ -15,4 +15,5 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore()
 export const postsCol = collection(db, 'posts')
+export const usersCol = collection(db, 'users')
 export default app;
