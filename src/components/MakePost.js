@@ -8,7 +8,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
 import { postsCol } from "../firebase";
 
-export default function Post() {
+export default function MakePost() {
   const [post, setPost] = useState("");
   const {username, uid} = useSelector((state => state.currentUser))
   const dropdownRef = useRef();

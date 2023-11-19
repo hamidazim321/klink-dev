@@ -43,6 +43,11 @@ export default function Header({ name }) {
                   Post
                 </Button>
               </Dropdown.Item>
+              <Dropdown.Item>
+                <Button type="button" variant="outline" onClick={() => navigate('/My-Posts')}>
+                  My Posts
+                </Button>
+              </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
           <p className="fs-4 align-self-end">{name}</p>

@@ -1,8 +1,4 @@
 import { useEffect, useState } from "react";
-import Dashboard from "./Dashboard";
-import Login from "./Login";
-import SignUp from "./SignUp";
-import Home from "./Home";
 import { Routes, Route, Navigate } from "react-router-dom";
 import { auth } from "../firebase";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,7 +7,12 @@ import PrivateRoute from "./PrivateRoute";
 import Header from "./Header";
 import { onAuthStateChanged } from "firebase/auth";
 import Footer from "./Footer";
-import Post from "./MyPost";
+import MakePost from "./MakePost";
+import Dashboard from "./Dashboard";
+import Login from "./Login";
+import SignUp from "./SignUp";
+import Home from "./Home";
+import MyPosts from "./MyPosts";
 
 function App() {
   const dispatch = useDispatch();
@@ -57,7 +58,11 @@ function App() {
         />
         <Route
           path="/Post"
-          element={<PrivateRoute user={currentUser.uid} children={<Post />} />}
+          element={<PrivateRoute user={currentUser.uid} children={<MakePost />} />}
+        />
+        <Route
+          path="/My-Posts"
+          element={<PrivateRoute user={currentUser.uid} children={<MyPosts />} />}
         />
       </Routes>
     </div>
