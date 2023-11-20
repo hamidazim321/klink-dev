@@ -1,6 +1,12 @@
-import { doc, onSnapshot, updateDoc, serverTimestamp} from "firebase/firestore";
+import {
+  addDoc,
+  onSnapshot,
+  serverTimestamp,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import React, { useEffect, useState, useRef } from "react";
-import { Stack, Dropdown, Form, Button } from "react-bootstrap";
+import { Stack, Dropdown, Form, Button, Container } from "react-bootstrap";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { chatroomCol } from "../firebase";
@@ -11,31 +17,27 @@ import { useSelector } from "react-redux";
 
 export default function Inbox() {
   const [messages, setMessages] = useState();
-  const [colId, setColId] = useState()
   const dropdownRef = useRef();
   const [showDropdown, setShowDropdown] = useState(false);
   const [myMessage, setMyMessage] = useState("");
   const [loading, setLoading] = useState(true);
-  const {username} = useSelector(state => state.currentUser)
+  const { username } = useSelector((state) => state.currentUser);
   useEffect(() => {
-    const unsubscribe = onSnapshot(
-      chatroomCol,
-      (snapshot) => {
-        try {
-          const docs = snapshot.docs
-          const data = docs[0].data()
-          const id = docs[0].id
-          setMessages(data)
-          setColId(id)
-          console.log(data)
-
-        }catch(err){
-
-        }
-        setLoading(false)
-        console.log(messages)
-      }
-    );
+    const q = query(chatroomCol, orderBy("time", "asc"));
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      try {
+        const { docs } = snapshot;
+        const arr = [];
+        docs.forEach((doc) => {
+          arr.push({
+            message: doc.data(),
+            id: doc.id,
+          });
+        });
+        setMessages(arr);
+      } catch (err) {}
+      setLoading(false);
+    });
     return unsubscribe;
   }, [chatroomCol]);
 
@@ -60,27 +62,20 @@ export default function Inbox() {
     };
   }, []);
 
-  const sendMessage = async(e) => {
+  const sendMessage = async (e) => {
     e.preventDefault();
-    if (myMessage === ""){
-      return
+    if (myMessage === "") {
+      return;
     }
-    const docRef = doc(chatroomCol,colId)
-    console.log(colId)
-    const updateData = {
-      chat: {
-        messages: [
-          ...messages.chat.messages,
-          {
-            message: myMessage,
-            sender: username,
-            time: serverTimestamp
-          }
-        ]
-      }
+    try {
+      await addDoc(chatroomCol, {
+        message: myMessage,
+        sender: username,
+        time: serverTimestamp(),
+      });
+    } catch (err) {
+      console.error(err.message);
     }
-    await updateDoc(docRef,updateData)
-    console.log('updated Data',updateData)
   };
 
   if (loading) {
@@ -88,16 +83,21 @@ export default function Inbox() {
   }
 
   return (
-    <Stack style={{ height: "80vh" }} className="bg-secondary p-2 w-100">
-      <div className="d-flex flex-column">
-        {messages.chat.messages.map((message) => (
+    <Container style={{ height: "80vh" }} className="border border-6 border-primary p-0 m-0">
+      <Stack
+        direction="vertical"
+        gap={2}
+        className="bg-secondary-subtle p-2 w-100 overflow-scroll"
+      >
+        {messages.map((data) => (
           <Message
-            sender={message.sender}
-            time={message.time}
-            message={message.message}
+            key={data.id}
+            sender={data.message.sender}
+            time={data.message.time}
+            message={data.message.message}
           />
         ))}
-      </div>
+      </Stack>
       <Form
         onSubmit={sendMessage}
         className="w-100 mt-auto d-flex gap-1 align-items-baseline"
@@ -112,7 +112,7 @@ export default function Inbox() {
             <Dropdown.Toggle
               variant="outline"
               id="dropdown-basic"
-              className="fs-1 p-2 text-white"
+              className="fs-1 p-2"
             >
               <BsEmojiLaughing />
             </Dropdown.Toggle>
@@ -139,6 +139,6 @@ export default function Inbox() {
           <IoSend />
         </Button>
       </Form>
-    </Stack>
+    </Container>
   );
 }
