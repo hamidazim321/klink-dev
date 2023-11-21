@@ -7,6 +7,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import PostCard from "./PostCard";
 import CommentBox from "./CommentBox";
 import { useSelector } from "react-redux";
+import Footer from "./Footer";
+import Header from "./Header";
 export default function Home() {
   const [posts, setPosts] = useState([]);
   const [showComments, setShowComments] = useState(false);
@@ -46,6 +48,8 @@ export default function Home() {
     setSelectedComments(updatedComments);
   };
   return (
+    <>
+    <Header name={username} />
     <Container className="d-flex flex-column gap-3">
       {posts.map((post) => (
         <PostCard
@@ -91,5 +95,7 @@ export default function Home() {
         </Modal.Footer>
       </Modal>
     </Container>
+    <Footer />
+    </>
   );
 }

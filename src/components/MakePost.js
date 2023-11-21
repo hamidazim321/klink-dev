@@ -7,6 +7,8 @@ import { BsEmojiLaughing } from "react-icons/bs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
 import { postsCol } from "../firebase";
+import Header from "./Header";
+import Footer from "./Footer";
 
 export default function MakePost() {
   const [post, setPost] = useState("");
@@ -55,6 +57,8 @@ export default function MakePost() {
   }, []);
 
   return (
+    <>
+    <Header name={username} />
     <Form className="w-100 p-2" onSubmit={handlePost}>
       {alert && (
         alert === 'Posted Successfully' ? (
@@ -102,5 +106,7 @@ export default function MakePost() {
         </Dropdown>
       </div>
     </Form>
+    <Footer />
+    </>
   );
 }

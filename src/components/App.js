@@ -4,9 +4,7 @@ import { auth } from "../firebase";
 import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../redux/CurrentUser/currentUser";
 import PrivateRoute from "./PrivateRoute";
-import Header from "./Header";
 import { onAuthStateChanged } from "firebase/auth";
-import Footer from "./Footer";
 import MakePost from "./MakePost";
 import Dashboard from "./Dashboard";
 import Login from "./Login";
@@ -41,8 +39,6 @@ function App() {
 
   return (
     <div className="App">
-      {currentUser.uid && <Header name={currentUser.username} />}
-      {currentUser.uid && <Footer />}
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route

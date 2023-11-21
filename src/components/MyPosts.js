@@ -12,6 +12,8 @@ import {
 } from "firebase/firestore";
 import { postsCol } from "../firebase";
 import { Button, Container } from "react-bootstrap";
+import Footer from "./Footer";
+import Header from "./Header";
 export default function MyPosts() {
   const { uid, username } = useSelector((state) => state.currentUser);
   const [posts, setPosts] = useState();
@@ -42,6 +44,8 @@ export default function MyPosts() {
     return unsubscribe
   }, [uid]);
   return (
+    <>
+    <Header name={username} />
     <Container className="d-flex flex-column gap-3">
       {!loading && (
         <>
@@ -64,5 +68,7 @@ export default function MyPosts() {
         </>
       )}
     </Container>
+    <Footer />
+    </>
   );
 }

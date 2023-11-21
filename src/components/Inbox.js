@@ -7,6 +7,7 @@ import {
 } from "firebase/firestore";
 import React, { useEffect, useState, useRef } from "react";
 import { Stack, Dropdown, Form, Button, Container } from "react-bootstrap";
+import { TiArrowBack } from "react-icons/ti";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { chatroomCol } from "../firebase";
@@ -14,6 +15,7 @@ import Message from "./Message";
 import { BsEmojiLaughing } from "react-icons/bs";
 import { IoSend } from "react-icons/io5";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function Inbox() {
   const [messages, setMessages] = useState();
@@ -22,6 +24,7 @@ export default function Inbox() {
   const [myMessage, setMyMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const { username } = useSelector((state) => state.currentUser);
+  const navigate = useNavigate()
   useEffect(() => {
     const q = query(chatroomCol, orderBy("time", "asc"));
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -39,7 +42,7 @@ export default function Inbox() {
       setLoading(false);
     });
     return unsubscribe;
-  }, [chatroomCol]);
+  }, []);
 
   const handleDropdownToggle = (isOpen) => {
     setShowDropdown(isOpen);
@@ -76,6 +79,7 @@ export default function Inbox() {
     } catch (err) {
       console.error(err.message);
     }
+    setMyMessage("")
   };
 
   if (loading) {
@@ -83,11 +87,19 @@ export default function Inbox() {
   }
 
   return (
-    <Container style={{ height: "80vh" }} className="border border-6 border-primary p-0 m-0">
+    <Container style={{ height: "100vh"}} className="p-0 w-100">
+      <Button 
+      variant="success" 
+      type="button" 
+      onClick={() => navigate('/Home')}
+      className="w-auto position-fixed text-white fs-4"
+      >
+        <TiArrowBack />
+      </Button>
       <Stack
         direction="vertical"
         gap={2}
-        className="bg-secondary-subtle p-2 w-100 overflow-scroll"
+        className="bg-secondary-subtle p-2 w-100 pb-5 w-100 m-0"
       >
         {messages.map((data) => (
           <Message
@@ -100,7 +112,7 @@ export default function Inbox() {
       </Stack>
       <Form
         onSubmit={sendMessage}
-        className="w-100 mt-auto d-flex gap-1 align-items-baseline"
+        className="w-100 fixed-bottom d-flex gap-1 align-items-baseline"
       >
         <div className="d-flex justify-content-end">
           <Dropdown
