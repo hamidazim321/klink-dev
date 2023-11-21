@@ -10,7 +10,7 @@ import { useSelector } from "react-redux";
 import Footer from "./Footer";
 import Header from "./Header";
 export default function Home() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState();
   const [showComments, setShowComments] = useState(false);
   const [selectedComments, setSelectedComments] = useState();
   const [postId, setPostId] = useState();
@@ -51,7 +51,7 @@ export default function Home() {
     <>
     <Header name={username} />
     <Container className="d-flex flex-column gap-3">
-      {posts.map((post) => (
+      {posts && posts.map((post) => (
         <PostCard
           data={post.data}
           id={post.id}
@@ -64,7 +64,7 @@ export default function Home() {
         backdrop="static"
         onHide={() => setShowComments(false)}
       >
-        <Modal.Header closeButton>Comments</Modal.Header>
+        <Modal.Header closeButton>Post your comment</Modal.Header>
         <Modal.Body>
           <CommentBox
             commentHandler={updateCommentsLocally}
@@ -72,7 +72,8 @@ export default function Home() {
             postId={postId}
           />
         </Modal.Body>
-        <Modal.Footer>
+        <Modal.Footer className="d-flex flex-column">
+          <p className="fw-bold fs-5">Comments</p>
           <Stack
             direction="vertical"
             gap={2}

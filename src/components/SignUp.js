@@ -9,7 +9,7 @@ import { setUser } from "../redux/CurrentUser/currentUser";
 import { addDoc, getDocs, query, where } from "firebase/firestore";
 
 export default function SignUp() {
-  const [userName, setUserName] = useState();
+  const [userName, setUserName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

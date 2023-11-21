@@ -100,8 +100,9 @@ export default function Inbox() {
         direction="vertical"
         gap={2}
         className="bg-secondary-subtle p-2 w-100 pb-5 w-100 m-0"
+        style={{height: '100%'}}
       >
-        {messages.map((data) => (
+        {messages && messages.map((data) => (
           <Message
             key={data.id}
             sender={data.message.sender}
