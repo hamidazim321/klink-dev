@@ -42,27 +42,27 @@ function App() {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route
-          path="/Login"
-          element={currentUser.uid ? <Navigate replace to={`/Home`} /> : <Login />}
+          path="/login"
+          element={currentUser.uid ? <Navigate replace to={`/home`} /> : <Login />}
         />
         <Route
-          path="/SignUp"
-          element={currentUser.uid ? <Navigate replace to={`/Home`} /> : <SignUp />}
+          path="/signUp"
+          element={currentUser.uid ? <Navigate replace to={`/home`} /> : <SignUp />}
         />
         <Route
-          path="/Home"
+          path="/home"
           element={<PrivateRoute user={currentUser.uid} children={<Home />} />}
         />
         <Route
-          path="/Post"
+          path="/post"
           element={<PrivateRoute user={currentUser.uid} children={<MakePost />} />}
         />
         <Route
-          path="/My-Posts"
+          path="/myposts"
           element={<PrivateRoute user={currentUser.uid} children={<MyPosts />} />}
         />
         <Route
-          path="/Inbox"
+          path="/inbox"
           element={<PrivateRoute user={currentUser.uid} children={<Inbox />} />}
         />
       </Routes>

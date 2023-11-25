@@ -36,10 +36,10 @@ export default function Header({ name }) {
               <Dropdown.Item className=" border-bottom" onClick={handleLogout}>
                   Logout
               </Dropdown.Item>
-              <Dropdown.Item className=" border-bottom" onClick={() => navigate('/Post')}>
+              <Dropdown.Item className=" border-bottom" onClick={() => navigate('/post')}>
                   Post
               </Dropdown.Item>
-              <Dropdown.Item onClick={() => navigate('/My-Posts')}>
+              <Dropdown.Item onClick={() => navigate('/myposts')}>
                   My Posts
               </Dropdown.Item>
             </Dropdown.Menu>

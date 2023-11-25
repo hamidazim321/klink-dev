@@ -10,45 +10,10 @@ export default function Dashboard() {
   const { username } = useSelector((state) => state.currentUser);
   useEffect(() => {
     if (username) {
-      navigate("/Home");
+      navigate("/home");
     }
   }, [username, navigate]);
   return (
-    // <div>
-    //   <Container className="w-100 p-4 d-flex flex-column gap-4 pt-5">
-    //     <div>
-    // <Image className="w-25" src={logo} />
-    //     </div>
-    //     <div>
-    //       <h1 className="h1 display-1 fw-bold">Happening</h1>
-    //       <h2 className=" h2 display-2 fw-bold">now</h2>
-    //     </div>
-    //     <Card className="w-100 w-sm-100 border-0">
-    //       <Card.Body className="d-flex flex-column">
-    //         <Card.Title className="fs-1 mb-4">Join Now</Card.Title>
-    // <Button
-    //   variant="primary"
-    //   className="rounded-pill w-50 fs-5 fw-semibold mb-3"
-    //   type="button"
-    //   onClick={() => navigate('/SignUp')}
-    // >
-    //   Create account
-    // </Button>
-    //         <Card.Text className="mb-1 fs-5 ">
-    //           Already have an account?
-    //         </Card.Text>
-    //         <Button
-    //           variant="outline"
-    //           className="border border-secondary-subtle rounded-pill w-50 fs-5 fw-semibold"
-    //           type="button"
-    //           onClick={() => navigate('/Login')}
-    //         >
-    //           Sign in
-    //         </Button>
-    //       </Card.Body>
-    //     </Card>
-    //   </Container>
-    // </div>
     <Container fluid className="p-5">
       <Row className="gy-2">
         <Col className="col-12 col-lg-6">
@@ -68,7 +33,7 @@ export default function Dashboard() {
             variant="primary"
             className="rounded-pill fs-5 px-5 fw-semibold mb-3"
             type="button"
-            onClick={() => navigate("/SignUp")}
+            onClick={() => navigate("/signUp")}
           >
             Create account
           </Button>
@@ -81,7 +46,7 @@ export default function Dashboard() {
             variant="outline"
             className="border px-5 border-secondary-subtle rounded-pill fs-5 fw-semibold"
             type="button"
-            onClick={() => navigate("/Login")}
+            onClick={() => navigate("/login")}
           >
             Sign in
           </Button>

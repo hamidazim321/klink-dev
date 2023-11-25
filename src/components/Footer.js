@@ -13,11 +13,11 @@ export default function Footer() {
         direction="horizontal"
         className="w-100 sticky-bottom position-fixed bottom-0 border border-2 p-2 fs-3 d-flex justify-content-around"
       >
-        <div onClick={()=>navigate('/Home')}>
+        <div onClick={()=>navigate('/home')}>
           <GoHomeFill />
         </div>
 
-        <div onClick={()=>navigate('/Inbox')}>
+        <div onClick={()=>navigate('/inbox')}>
           <FaEnvelope />
         </div>
       </Stack>

@@ -93,7 +93,7 @@ export default function Inbox() {
       <Button 
       variant="success" 
       type="button" 
-      onClick={() => navigate('/Home')}
+      onClick={() => navigate('/home')}
       className="w-auto position-fixed text-white fs-4"
       >
         <TiArrowBack />
