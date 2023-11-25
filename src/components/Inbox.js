@@ -89,7 +89,7 @@ export default function Inbox() {
   }
 
   return (
-    <Container style={{ height: "100vh"}} className="p-0 w-100">
+    <Container fluid style={{ height: "100vh"}} className="p-0">
       <Button 
       variant="success" 
       type="button" 
@@ -145,7 +145,7 @@ export default function Inbox() {
         </div>
         <Form.Control
           type="textarea"
-          placeholder="What's on your mind"
+          placeholder="Hello"
           className="mb-2 fs-4  flex-grow"
           style={{ minHeight: "40px" }}
           value={myMessage}
