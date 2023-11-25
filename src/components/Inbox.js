@@ -24,6 +24,7 @@ export default function Inbox() {
   const [myMessage, setMyMessage] = useState("");
   const [loading, setLoading] = useState(true);
   const { username } = useSelector((state) => state.currentUser);
+  const bottomMsg = useRef()
   const navigate = useNavigate()
   useEffect(() => {
     const q = query(chatroomCol, orderBy("time", "asc"));
@@ -76,6 +77,7 @@ export default function Inbox() {
         sender: username,
         time: serverTimestamp(),
       });
+      bottomMsg.current.scrollIntoView({behaviour: 'smooth'})
     } catch (err) {
       console.error(err.message);
     }
@@ -100,7 +102,7 @@ export default function Inbox() {
         direction="vertical"
         gap={2}
         className="bg-secondary-subtle p-2 w-100 pb-5 w-100 m-0"
-        style={{height: '100%'}}
+        style={{minHeight: '100%'}}
       >
         {messages && messages.map((data) => (
           <Message
@@ -110,6 +112,7 @@ export default function Inbox() {
             message={data.message.message}
           />
         ))}
+        <div ref={bottomMsg}></div>
       </Stack>
       <Form
         onSubmit={sendMessage}
