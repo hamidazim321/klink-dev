@@ -46,7 +46,7 @@ export default function MyPosts() {
   return (
     <>
     <Header name={username} />
-    <Container className="d-flex flex-column gap-3">
+    <Container className="d-flex flex-column gap-3 pb-5 mb-5">
       {!loading && (
         <>
           <h1 className="h1 display-3">{username}'s Posts</h1>
