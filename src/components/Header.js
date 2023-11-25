@@ -33,20 +33,14 @@ export default function Header({ name }) {
             </Dropdown.Toggle>
 
             <Dropdown.Menu>
-              <Dropdown.Item className="fs-3 border-bottom">
-                <Button type="button" variant="outline" onClick={handleLogout}>
+              <Dropdown.Item className=" border-bottom" onClick={handleLogout}>
                   Logout
-                </Button>
               </Dropdown.Item>
-              <Dropdown.Item>
-                <Button type="button" variant="outline" onClick={() => navigate('/Post')}>
+              <Dropdown.Item className=" border-bottom" onClick={() => navigate('/Post')}>
                   Post
-                </Button>
               </Dropdown.Item>
-              <Dropdown.Item>
-                <Button type="button" variant="outline" onClick={() => navigate('/My-Posts')}>
+              <Dropdown.Item onClick={() => navigate('/My-Posts')}>
                   My Posts
-                </Button>
               </Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>
