@@ -50,7 +50,7 @@ export default function Home() {
   return (
     <>
     <Header name={username} />
-    <Container className="d-flex flex-column gap-3">
+    <Container className="d-flex flex-column gap-3 pb-5 mb-5">
       {posts && posts.map((post) => (
         <PostCard
           data={post.data}
