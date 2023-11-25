@@ -49,7 +49,7 @@ export default function Dashboard() {
     //     </Card>
     //   </Container>
     // </div>
-    <Container fluid className="p-2 p-md-5">
+    <Container fluid className="p-5">
       <Row className="gy-2">
         <Col className="col-12 col-lg-6">
           <Image className="w-25" src={logo} />
@@ -74,7 +74,7 @@ export default function Dashboard() {
           </Button>
         </Col>
         <Col className="col-12">
-          <span>Already have an account?</span>
+          <span className="fs-4">Already have an account?</span>
         </Col>
         <Col className="col-12">
           <Button
