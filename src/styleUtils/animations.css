@@ -1,0 +1,26 @@
+
+.inLeft {
+  animation: inLeft 0.3s ease-out ;
+}
+
+.outLeft {
+  animation: outLeft 0.3s ease-out ;
+}
+
+@keyframes inLeft {
+  from {
+    transform: translateX(-100%); 
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes outLeft {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}

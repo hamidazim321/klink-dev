@@ -12,6 +12,7 @@ import SignUp from "./SignUp";
 import Home from "./Home";
 import MyPosts from "./MyPosts";
 import Inbox from "./Inbox";
+import SideBar from "./SideBar";
 
 function App() {
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
+        <Route path="sidebar" element={<SideBar/>}/>
         <Route path="/" element={<Dashboard />} />
         <Route
           path="/login"
