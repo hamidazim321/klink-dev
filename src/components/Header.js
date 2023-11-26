@@ -14,13 +14,13 @@ export default function Header({ name }) {
     sideBarState(true)
   }
   return (
-    <Stack direction="horizontal" className="w-100 sticky-top px-3" gap={3}>
-      <div className="w-100 d-flex justify-content-between align-items-baseline">
-        <div className="p-2 gap-2 fw-bold d-flex align-items-baseline fs-1">
+    <Stack direction="horizontal" className="w-100 sticky-top px-3 border-bottom border-3 bg-white" gap={3}>
+      <div className="w-100 d-flex justify-content-between align-items-center">
+        <div className="p-2 gap-2 fw-bold d-flex fs-1 align-items-center">
           <FaUserCircle />
-          <p className="fs-4 align-self-center">{name}</p>
+          <p className="fs-4 my-auto">{name}</p>
         </div>
-        <div className="p-2 align-self-center ms-auto" onClick={openSideBar}>
+        <div className="p-2  ms-auto" onClick={openSideBar}>
           <Image className="w-75" src={logo} />
         </div>
       </div>
