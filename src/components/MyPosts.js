@@ -52,8 +52,8 @@ export default function MyPosts() {
           <h1 className="h1 display-3">{username}'s Posts</h1>
           {posts &&
             posts.map((post) => (
-              <div>
-                <PostCard data={post.data} key={post.id} />
+              <div key={post.id}>
+                <PostCard data={post.data} />
                 <Button
                   type="button"
                   variant="danger"
