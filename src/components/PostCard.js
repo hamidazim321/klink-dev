@@ -13,15 +13,18 @@ export default function PostCard({ data, id, commentsHandler }) {
   const [newLikes, setNewLikes] = useState(likes);
 
   const handleLike = async (id) => {
+    const docRef = doc(postsCol, id);
+    let updateLikes;
     if (liked) {
-      return;
+      updateLikes = likes.filter((like) => like!== uid)
+      setLiked(false)
+    } else {
+      updateLikes = [...likes, uid];
     }
     try {
-      const docRef = doc(postsCol, id);
-      const myLike = [...likes, uid];
-      setNewLikes(myLike);
+      setNewLikes(updateLikes);
       updateDoc(docRef, {
-        likes: myLike,
+        likes: updateLikes,
       });
     } catch (error) {
       console.log(error);
