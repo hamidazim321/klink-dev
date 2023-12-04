@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { auth } from "../firebase";
 import { signOut } from "firebase/auth";
 import { setUser } from "../redux/CurrentUser/currentUser";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Container, Stack, CloseButton } from "react-bootstrap";
 import { FaUserCircle } from "react-icons/fa";
 import "../styleUtils/utils.css";
@@ -11,7 +11,6 @@ import "../styleUtils/animations.css";
 
 export default function SideBar({closeBar, open}) {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -30,9 +29,9 @@ export default function SideBar({closeBar, open}) {
         <CloseButton className="fs-4" onClick={closeBar} />
       </div>
       <Stack>
-        <span className="p-2" onClick={() => navigate('/post')}>Post</span>
-        <span className="p-2" onClick={() => navigate('/myposts')}>My Posts</span>
-        <span className="p-2" onClick={handleLogout}>Logout</span>
+        <Link className="p-2 text-decoration-none text-black" to="/post">Post</Link>
+        <Link className="p-2 text-decoration-none text-black" to="/myposts">My Posts</Link>
+        <Link className="p-2 text-decoration-none text-black" onClick={handleLogout}>Logout</Link>
       </Stack>
     </Container>
   );

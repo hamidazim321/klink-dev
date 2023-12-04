@@ -20,7 +20,7 @@ export default function Header({ name }) {
           <FaUserCircle />
           <p className="fs-4 my-auto">{name}</p>
         </div>
-        <div className="p-2  ms-auto" onClick={openSideBar}>
+        <div className="p-2  ms-auto" onClick={openSideBar} style={{cursor: 'pointer'}}>
           <Image className="w-75" src={logo} />
         </div>
       </div>
