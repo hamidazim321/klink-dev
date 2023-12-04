@@ -89,12 +89,12 @@ export default function Inbox() {
   }
 
   return (
-    <Container fluid style={{ height: "100vh"}} className="p-0">
+    <Container fluid style={{ height: "100vh"}} className="p-0 bg-secondary-subtle">
       <Button 
       variant="success" 
       type="button" 
       onClick={() => navigate('/home')}
-      className="w-auto position-fixed text-white fs-4"
+      className="w-auto position-relative start-0 top-0 text-white fs-4"
       >
         <TiArrowBack />
       </Button>

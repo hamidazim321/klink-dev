@@ -71,7 +71,7 @@ export default function Login() {
                 </Button>
               </Form>
               <div className="mt-2 fs-6">
-                Dont't have an Account? <Link to="/signUp">Sign up</Link>
+                Dont't have an Account? <Link to="/SignUp">Sign up</Link>
               </div>
             </Card.Body>
           </Card>

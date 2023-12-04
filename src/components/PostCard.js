@@ -27,7 +27,7 @@ export default function PostCard({ data, id, commentsHandler }) {
         likes: updateLikes,
       });
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 
