@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import PostCard from "./PostCard";
+import PostCard from "../components/PostCard";
 import { useSelector } from "react-redux";
 import {
   orderBy,
@@ -12,8 +12,8 @@ import {
 } from "firebase/firestore";
 import { postsCol } from "../firebase";
 import { Button, Container } from "react-bootstrap";
-import Footer from "./Footer";
-import Header from "./Header";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 export default function MyPosts() {
   const { uid, username } = useSelector((state) => state.currentUser);
   const [posts, setPosts] = useState();

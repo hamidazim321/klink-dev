@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button, Container, Card, Image, Col, Row } from "react-bootstrap";
+import { Button, Container, Image, Col, Row } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import logo from "../assets/logo.svg";
 import { useNavigate } from "react-router-dom";

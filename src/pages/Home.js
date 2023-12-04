@@ -4,11 +4,11 @@ import { getDocs, orderBy, query } from "firebase/firestore";
 import { Container, Modal, Stack } from "react-bootstrap";
 import { FaTrash } from "react-icons/fa";
 import "bootstrap/dist/css/bootstrap.min.css";
-import PostCard from "./PostCard";
-import CommentBox from "./CommentBox";
+import PostCard from "../components/PostCard";
+import CommentBox from "../components/CommentBox";
 import { useSelector } from "react-redux";
-import Footer from "./Footer";
-import Header from "./Header";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 export default function Home() {
   const [posts, setPosts] = useState();
   const [showComments, setShowComments] = useState(false);

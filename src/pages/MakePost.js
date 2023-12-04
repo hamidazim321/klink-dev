@@ -7,8 +7,8 @@ import { BsEmojiLaughing } from "react-icons/bs";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useSelector } from "react-redux";
 import { postsCol } from "../firebase";
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 export default function MakePost() {
   const [post, setPost] = useState("");

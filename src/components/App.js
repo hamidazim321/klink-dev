@@ -5,13 +5,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { setUser } from "../redux/CurrentUser/currentUser";
 import PrivateRoute from "./PrivateRoute";
 import { onAuthStateChanged } from "firebase/auth";
-import MakePost from "./MakePost";
-import Dashboard from "./Dashboard";
-import Login from "./Login";
-import SignUp from "./SignUp";
-import Home from "./Home";
-import MyPosts from "./MyPosts";
-import Inbox from "./Inbox";
+import MakePost from "../pages/MakePost";
+import Dashboard from "../pages/Dashboard";
+import Login from "../pages/Login";
+import SignUp from "../pages/SignUp";
+import Home from "../pages/Home";
+import MyPosts from "../pages/MyPosts";
+import Inbox from "../pages/Inbox";
 import SideBar from "./SideBar";
 
 function App() {

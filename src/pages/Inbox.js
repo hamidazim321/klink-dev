@@ -11,7 +11,7 @@ import { TiArrowBack } from "react-icons/ti";
 import data from "@emoji-mart/data";
 import Picker from "@emoji-mart/react";
 import { chatroomCol } from "../firebase";
-import Message from "./Message";
+import Message from "../components/Message";
 import { BsEmojiLaughing } from "react-icons/bs";
 import { IoSend } from "react-icons/io5";
 import { useSelector } from "react-redux";
