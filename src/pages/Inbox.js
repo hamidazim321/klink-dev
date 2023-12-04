@@ -16,6 +16,7 @@ import { BsEmojiLaughing } from "react-icons/bs";
 import { IoSend } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { clean } from "profanity-cleaner";
 
 export default function Inbox() {
   const [messages, setMessages] = useState();
@@ -72,8 +73,9 @@ export default function Inbox() {
       return;
     }
     try {
+      const cleanMsg = clean(myMessage)
       await addDoc(chatroomCol, {
-        message: myMessage,
+        message: cleanMsg,
         sender: username,
         time: serverTimestamp(),
       });
